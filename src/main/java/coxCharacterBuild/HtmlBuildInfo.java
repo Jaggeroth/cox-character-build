@@ -2,10 +2,11 @@ package coxCharacterBuild;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,7 +17,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -37,19 +38,7 @@ public class HtmlBuildInfo {
 			+ "<tr><td>%s</td><td style=\"width: 36px;\">%s</td></tr>"
 			+ "</table></div>\n<p/>\n";
 	private static final String INCARNATE_TEXT = "<b>%s:</b> %s <br/><b>TIER %s</b><br/>";
-    //private static final String CHAR_PAGE_URL = "https://www.cityofheroesrebirth.com/public/api/character/raw?q=<character id here>";
-	// Enigma Tick
-	//private static final String CHAR_PAGE_URL = "https://www.cityofheroesrebirth.com/public/api/character/raw?q=BJGfUO9DTCFxoEE7okniNQ%3D%3D";
-	// Maiden America
-	//private static final String CHAR_PAGE_URL = "https://www.cityofheroesrebirth.com/public/api/character/raw?q=BYzK5AI%2B8UUygO4bER12GQ%3D%3D";
-	// Murder Muse
-	//private static final String CHAR_PAGE_URL = "https://www.cityofheroesrebirth.com/public/api/character/raw?q=mQ2Wzt57EOHCQ1H55Eex0w%3D%3D";
-	// Strife Spirit
-	//private static final String CHAR_PAGE_URL = "https://www.cityofheroesrebirth.com/public/api/character/raw?q=RCrFx1%2FEVvwwftixCr75Vg%3D%3D";
-	// Power Jenny
-	//private static final String CHAR_PAGE_URL = "https://www.cityofheroesrebirth.com/public/api/character/raw?q=brGxzOVXny%2Fg7%2FnbZnQtig%3D%3D";
-	//child of babylon
-	private static final String CHAR_PAGE_URL = "https://www.cityofheroesrebirth.com/public/api/character/raw?q=Mx6njIKk33%2Fe7KfLl80JA6Za3m%2BexoPF2%2Bt%2BAxTxPVk%3D";
+    private static final String CHAR_PAGE_URL = "https://www.cityofheroesrebirth.com/public/api/character/raw?q=<character id here>";
 
     private Properties iconData;
     private Properties substitutionData;
@@ -58,7 +47,7 @@ public class HtmlBuildInfo {
 	public static void main(String[] args) throws IOException {
     	System.out.println("START");
     	HtmlBuildInfo hbi = new HtmlBuildInfo();
-    	hbi.extractExecute("C:\\Data\\Docs\\hero-id\\seans", "test_char", CHAR_PAGE_URL);
+    	hbi.extractExecute("C:\\Data\\Docs\\hero-id\\test", "test_char", CHAR_PAGE_URL);
     	System.out.println("END");
 	}
 
@@ -615,12 +604,19 @@ public class HtmlBuildInfo {
 		for (String resource : resources) {
 	    	try {
 	    		String toFilePath = String.format("%s\\%s", targetDir, resource);
-	    		URL url = getClass().getResource(String.format("/%s", resource.replace("\\", "/")));
-	    		File sourceFile = new File(url.getPath());
 	    		File targetFile = new File(toFilePath);
 	    		if (!targetFile.exists()) {
 	    			targetFile.getParentFile().mkdirs();
-	    			FileUtils.copyFile(sourceFile, targetFile);
+	    			InputStream resourceFile = getClass().getClassLoader().getResourceAsStream(resource.replace("\\", "/"));
+	    			OutputStream outStream = new FileOutputStream(targetFile);
+
+	    		    byte[] buffer = new byte[8 * 1024];
+	    		    int bytesRead;
+	    		    while ((bytesRead = resourceFile.read(buffer)) != -1) {
+	    		        outStream.write(buffer, 0, bytesRead);
+	    		    }
+	    		    IOUtils.closeQuietly(resourceFile);
+	    		    IOUtils.closeQuietly(outStream);
 	    		}
 	    	} catch (Exception e) {
 	    		// TODO Auto-generated catch block
