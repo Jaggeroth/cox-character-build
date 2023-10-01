@@ -71,6 +71,8 @@ public class HtmlIndex {
 		Map<String, CharacterProfile> treeMap = new TreeMap<String, CharacterProfile>();
 		System.out.println("START");
 		System.out.println(String.format("Writing to %s", p.getProperty("character_dir")));
+		long num_chars = 0;
+		long total_levels = 0;
 		for (RebirthAccount account : getAccounts(p)) {
 	        CookieStore cookieStore = new BasicCookieStore();
 	        HttpClientContext  localContext = HttpClientContext.create();
@@ -112,6 +114,8 @@ public class HtmlIndex {
 				CharacterProfile cp = hbi.execute(p.getProperty("character_dir"), charFileName, charContent);
 				cp.setFilename(charFileName);
 				treeMap.put(name, cp);
+				num_chars++;
+				total_levels = total_levels + Integer.valueOf(cp.getLevel());
 			}
 		}
 		System.out.println("INDEX");
@@ -131,6 +135,7 @@ public class HtmlIndex {
         writer.write(getFooterHtml());
         writer.close();
 		System.out.println("END");
+		System.out.println(String.format("%s characters and %s levels in total", num_chars, total_levels));
 	}
 
 	private static String extractValue(String line) {
