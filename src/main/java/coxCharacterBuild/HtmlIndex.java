@@ -236,7 +236,6 @@ public class HtmlIndex {
 		p.load(reader);
 		if (p.getProperty("account.1.username") != null &&
 				p.getProperty("account.1.password") != null &&
-				p.getProperty("filename") != null &&
 				p.getProperty("character_dir") != null) {
 			return p;
 		}
