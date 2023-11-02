@@ -396,7 +396,7 @@ public class HtmlBuildInfo {
 		} else if ("6".equalsIgnoreCase(praetorianProgress)) {
 			return "Praetorian";
 		}
-		return null;
+		return "Neutral";
 	}
 	/*
 	private String getIncarnateIcon(final Power incarnate) {

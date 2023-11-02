@@ -113,7 +113,7 @@ public class HtmlIndex {
 				HtmlBuildInfo hbi = new HtmlBuildInfo();
 				CharacterProfile cp = hbi.execute(p.getProperty("character_dir"), charFileName, charContent);
 				cp.setFilename(charFileName);
-				treeMap.put(name, cp);
+				treeMap.put(name.toLowerCase(), cp);
 				num_chars++;
 				total_levels = total_levels + Integer.valueOf(cp.getLevel());
 			}
@@ -130,9 +130,9 @@ public class HtmlIndex {
         			entry.getValue().getAlignment(),
         			entry.getValue().getArchitype(),
             		entry.getValue().getLevel(),
-            		entry.getKey()));
+            		entry.getValue().getName()));
         }
-        writer.write(getFooterHtml());
+        writer.write(getFooterHtml(num_chars, total_levels));
         writer.close();
 		System.out.println("END");
 		System.out.println(String.format("%s characters and %s levels in total", num_chars, total_levels));
@@ -252,9 +252,10 @@ public class HtmlIndex {
 				+ "<div class=\"layout\">\n"
 				+ "<ul>\n";	
 	}
-	private static String getFooterHtml() {
+	private static String getFooterHtml(final long numChars, final long numLevels) {
 		return "</ul>\n"
 				+ "</div>\n"
+				+ String.format("<div style=\"text-align: center;\">%s characters and %s levels</div>\n", numChars, numLevels)
 				+ "</body>\n"
 				+ "</html>\n"
 				+ "";
