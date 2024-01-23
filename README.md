@@ -13,3 +13,6 @@
 6. Wait a minute or two while the programme lists out all your characters.
 
 7. Once it has ended, open the HTML folder and the index.html file
+
+![Example Layout] (ExampleLayout.png "Example Layout")
+![Example Layout](./src/main/resources/ExampleLayout.png "Example Layout")
