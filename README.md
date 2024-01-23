@@ -14,5 +14,5 @@
 
 7. Once it has ended, open the HTML folder and the index.html file
 
-#Example Layout
+# Example Layout
 ![Example Layout](./src/main/resources/ExampleLayout.png "Example Layout")
