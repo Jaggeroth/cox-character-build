@@ -121,6 +121,10 @@ public class Power {
 					return "4";
 				} else if (getPowerName().toLowerCase().endsWith("improved_ally")) {
 					return "3";
+				} else if (getPowerName().toLowerCase().contains("core") || getPowerName().toLowerCase().contains("radial")) {
+					return "2";
+				} else {
+					return "1";
 				}
 			} else if ("destiny".equalsIgnoreCase(getPowerSetName())) {
 				if (getPowerName().toLowerCase().endsWith("epiphany")) {
