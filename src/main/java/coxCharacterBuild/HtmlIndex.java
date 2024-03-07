@@ -43,7 +43,8 @@ public class HtmlIndex {
 	// Swap the two lines below if you want each character to have its own page
 	//private static final String LI_CHAR = "  <li title=\"%s\"><a href=\"%s.html\" target=\"charinfo\">%s %s %s (%s) %s</a></li>\n";
 	private static final String LI_CHAR = "  <li title=\"%s\"><a href=\"%s.html\">%s %s %s (%s) %s</a></li>\n";
-	
+	private static final String JSON_CHAR = " { name: '%s', level: %s, origin: '%s', alignment: '%s', at: '%s', url: '%s', title: '%s' },\n";
+
 	private static class CharacterFile {
 		private String characterName;
 		private String fileName;
@@ -128,13 +129,13 @@ public class HtmlIndex {
         	writer.write(String.format(LI_CHAR,
         			entry.getValue().getTitle(),
         			entry.getValue().getFilename(),
-        			entry.getValue().getOrigin(),
-        			entry.getValue().getAlignment(),
-        			entry.getValue().getArchitype(),
+        			entry.getValue().getOriginIcon(),
+        			entry.getValue().getAlignmentIcon(),
+        			entry.getValue().getArchitypeIcon(),
             		entry.getValue().getLevel(),
             		entry.getValue().getName()));
         }
-        writer.write(getFooterHtml(num_chars, total_levels));
+        writer.write(getFooterHtml(num_chars, total_levels, treeMap));
         writer.close();
 		System.out.println("END");
 		System.out.println(String.format("%s characters and %s levels in total", num_chars, total_levels));
@@ -248,16 +249,49 @@ public class HtmlIndex {
 				+ "<html>\n"
 				+ "<head>\n"
 				+ "<link rel=\"stylesheet\" href=\"css\\build.css\" type=\"text/css\" />\n"
+				+ "<script type=\"text/javascript\" src=\"js\\rebirth.js\"></script>\n"
 				+ "<title>Character Index</title>"
 				+ "</head>\n"
 				+ "<body>\n"
 				+ "<div class=\"layout\">\n"
 				+ "<ul>\n";	
 	}
-	private static String getFooterHtml(final long numChars, final long numLevels) {
+	private static String getFooterHtml(final long numChars, final long numLevels, Map<String, CharacterProfile> treeMap) {
+		String charData = "";
+        for (Map.Entry<String, CharacterProfile> entry : treeMap.entrySet()) {
+        	charData = charData + String.format(JSON_CHAR,
+        			entry.getValue().getName(),
+        			entry.getValue().getLevel(),
+        			entry.getValue().getOrigin(),
+        			entry.getValue().getAlignment(),
+        			entry.getValue().getArchitype(),
+        			entry.getValue().getFilename(),
+        			entry.getValue().getTitle());
+        }
 		return "</ul>\n"
 				+ "</div>\n"
 				+ String.format("<div style=\"text-align: center;\">%s characters and %s levels</div>\n", numChars, numLevels)
+				+ "<div style=\"text-align: center;\">\n"
+				+ "<select id=\"sortOrder\" name=\"sortOrder\" onchange=\"reloadChars()\">\n"
+				+ "  <option value=\"name\">Name</option>\n"
+				+ "  <option value=\"level\">Level</option>\n"
+				+ "  <option value=\"origin\">Origin</option>\n"
+				+ "  <option value=\"alignment\">Alignment</option>\n"
+				+ "  <option value=\"at\">Archetype</option>\n"
+				+ "</select>\n"
+				+ "<select id=\"ascDesc\" name=\"ascDesc\" onchange=\"reloadChars()\">\n"
+				+ "  <option value=\"asc\">Ascending</option>\n"
+				+ "  <option value=\"desc\">Descending</option>\n"
+				+ "</select>\n"
+				+ "</div>\n"
+				+ "<script type=\"text/javascript\">\n"
+				+ "var characters = ["
+				+ charData
+				+ "];\n"
+				+ "!function() {\n"
+				+ "  reloadChars();\n"
+				+ "}();\n"
+				+ "</script>\n"
 				+ "</body>\n"
 				+ "</html>\n"
 				+ "";

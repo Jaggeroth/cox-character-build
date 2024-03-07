@@ -3,30 +3,61 @@ package coxCharacterBuild;
 public class CharacterProfile {
 	private String name;
 	private String architype;
+	private String architypeIcon;
 	private String alignment;
+	private String alignmentIcon;
 	private String level;
 	private String origin;
+	private String originIcon;
 	private String primary;
 	private String secondary;
 	private String filename;
 	private String title;
-	public CharacterProfile(String name, String architype, String alignment, String level, String origin, String primary, String secondary, String filename, String title) {
+	public CharacterProfile(String name, 
+			String architype,
+			String architypeIcon,
+			String alignment,
+			String alignmentIcon,
+			String level,
+			String origin,
+			String originIcon, 
+			String primary, 
+			String secondary, 
+			String filename, 
+			String title) {
 		this.name = name;
 		this.architype = architype;
+		this.architypeIcon = architypeIcon;
 		this.alignment = alignment;
+		this.alignmentIcon = alignmentIcon;
 		this.level = level;
 		this.origin = origin;
+		this.originIcon = originIcon;
 		this.primary = primary;
 		this.secondary = secondary;
 		this.filename = filename;
 		this.title = title;
 	}
-	public CharacterProfile(String name, String architype, String alignment, int level, String origin, String primary, String secondary, String filename, String title) {
+	public CharacterProfile(String name,
+			String architype,
+			String architypeIcon,
+			String alignment,
+			String alignmentIcon,
+			int level,
+			String origin,
+			String originIcon,
+			String primary,
+			String secondary,
+			String filename,
+			String title) {
 		this.name = name;
 		this.architype = architype;
+		this.architypeIcon = architypeIcon;
 		this.alignment = alignment;
+		this.alignmentIcon = alignmentIcon;
 		this.level = String.valueOf(level);
 		this.origin = origin;
+		this.originIcon = originIcon;
 		this.primary = primary;
 		this.secondary = secondary;
 		this.filename = filename;
@@ -44,11 +75,23 @@ public class CharacterProfile {
 	public void setArchitype(String architype) {
 		this.architype = architype;
 	}
+	public String getArchitypeIcon() {
+		return architypeIcon;
+	}
+	public void setArchitypeIcon(String architypeIcon) {
+		this.architypeIcon = architypeIcon;
+	}
 	public String getAlignment() {
 		return alignment;
 	}
 	public void setAlignment(String alignment) {
 		this.alignment = alignment;
+	}
+	public String getAlignmentIcon() {
+		return alignmentIcon;
+	}
+	public void setAlignmentIcon(String alignmentIcon) {
+		this.alignmentIcon = alignmentIcon;
 	}
 	public String getLevel() {
 		return level;
@@ -61,6 +104,12 @@ public class CharacterProfile {
 	}
 	public void setOrigin(String origin) {
 		this.origin = origin;
+	}
+	public String getOriginIcon() {
+		return originIcon;
+	}
+	public void setOriginIcon(String originIcon) {
+		this.originIcon = originIcon;
 	}
 	public String getPrimary() {
 		return primary;

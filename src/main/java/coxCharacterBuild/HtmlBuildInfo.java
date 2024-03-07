@@ -203,9 +203,13 @@ public class HtmlBuildInfo {
 		writer.write(getFooterHtml());
 		writer.close();
 		deployResources(getResources(), targetDir);
-		return new CharacterProfile(name, getArchitypeIcon(architype),
+		return new CharacterProfile(name,
+				extractClass(architype),
+				getArchitypeIcon(architype),
+				alignment,
 				getAlignmentIcon(alignment),
 				characterLevel,
+				origin,
 				getOriginIcon(origin),
 				primary,
 				secondary,
@@ -213,6 +217,13 @@ public class HtmlBuildInfo {
 				char_page_title);
     }
  
+    public String extractClass(String architype) {
+    	if (architype.toLowerCase().startsWith("class_")) {
+    		return architype.substring(6);
+    	}
+    	return architype;
+    }
+
     public CharacterProfile extractExecute(String targetDir, String targetFilename, String characterUrl) throws IOException {
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpGet request = new HttpGet(characterUrl);
@@ -593,6 +604,7 @@ public class HtmlBuildInfo {
 		if (resources == null) {
 			resources = new ArrayList<String>();
 			resources.add("css\\build.css");
+			resources.add("js\\rebirth.js");
 			resources.add("images\\blank.png");
 			resources.add("images\\power_bar.png");
 		}
