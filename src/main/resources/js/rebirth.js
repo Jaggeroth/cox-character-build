@@ -31,7 +31,7 @@ function characterText(charData) {
 
 function getOriginImage(origin) {
   let img = new Image();
-  img.title = origin;
+  img.title = initCap(origin);
   var srcTxt = 'images\\origin\\' + origin.toLowerCase() + '.png';
   img.src = srcTxt;
   img.width=32;
@@ -41,7 +41,7 @@ function getOriginImage(origin) {
 
 function getAlignmentImage(alignment) {
   let img = new Image();
-  img.title = alignment;
+  img.title = initCap(alignment);
   var srcTxt = 'images\\alignment\\' + alignment.toLowerCase() + '.png';
   img.src = srcTxt;
   img.width=32;
@@ -51,7 +51,7 @@ function getAlignmentImage(alignment) {
 
 function getAtImage(archetype) {
   let img = new Image();
-  img.title = archetype;
+  img.title = initCap(archetype);
   var srcTxt = 'images\\archetype\\' + archetype.toLowerCase() + '.png';
   img.src = srcTxt;
   img.width=32;
@@ -78,6 +78,10 @@ function replaceList(ul, charData) {
 	var ol = ul.children[i];
 	ol.replaceChild(li_elem, ol.childNodes[0]);
   }
+}
+
+function initCap(value) {
+  return value.charAt(0).toUpperCase() + value.slice(1)
 }
 
 function reloadChars() {

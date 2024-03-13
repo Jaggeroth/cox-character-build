@@ -604,7 +604,7 @@ public class HtmlBuildInfo {
 		if (resources == null) {
 			resources = new ArrayList<String>();
 			resources.add("css\\build.css");
-			resources.add("js\\rebirth.js");
+			resources.add("js\\rebirth.min.js");
 			resources.add("images\\blank.png");
 			resources.add("images\\power_bar.png");
 		}
