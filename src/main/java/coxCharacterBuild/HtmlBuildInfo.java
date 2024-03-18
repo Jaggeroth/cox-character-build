@@ -26,7 +26,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
 public class HtmlBuildInfo {
-	private static final String IMG_TAG = "<img src=\"%s\" title=\"%s\" width=\"32\" height=\"32\">";
+	private static final String IMG_TAG = "<img src=\"%s\" title=\"%s\">";
 	private static final String TB_POWER = "<table class=\"powertable\">";
 	private static final String TB_POWER_ROW = "<tr><td class=\"powercol\" rowspan=\"2\">%s</td><td colspan=\"7\">%s</td></tr>";
 	private static final String TB_ENHANCEMENT_CELL = "<td style=\"width: 36px;\">%s</td>";
@@ -34,11 +34,11 @@ public class HtmlBuildInfo {
 	private static final String DOUBLE_IMG = "<div class=\"img-container\"><img class=\"bottom\" src=\"%s\" width=\"32\" height=\"32\"><img class=\"top\" src=\"%s\" title=\"%s\" width=\"32\" height=\"32\"></div>";
 	private static final String CHAR_TITLE = "%s : lvl %s %s %s / %s %s %s";
 	private static final String INCARNATE_TABLE = "<div class=\"incarnate\">"
-			+ "<table style=\"width: 400px;\">"
-			+ "<tr><td>%s</td><td style=\"width: 36px;\">%s</td></tr>"
+			+ "<table>"
+			+ "<tr><td width=\"100%%\">%s</td><td>%s</td></tr>"
 			+ "</table></div>\n<p/>\n";
 	private static final String INCARNATE_TEXT = "<b>%s:</b> %s <br/><b>TIER %s</b><br/>";
-    private static final String CHAR_PAGE_URL = "https://www.cityofheroesrebirth.com/public/api/character/raw?q=<character id here>";
+    private static final String CHAR_PAGE_URL = "https://www.cityofheroesrebirth.com/public/api/character/raw?q=zRE%2BribBmUXMrVVxz7fciA%3D%3D";
 
     private Properties iconData;
     private Properties substitutionData;
@@ -585,6 +585,7 @@ public class HtmlBuildInfo {
 				+ "<html>\n"
 				+ "<head>\n"
 				+ "<link rel=\"stylesheet\" href=\"css\\build.css\" type=\"text/css\" />\n"
+				+ "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0\">"
 				+ "<title>" + title + "</title>\n"
 				+ "</head>\n"
 				+ "<body>\n";	

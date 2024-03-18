@@ -249,6 +249,7 @@ public class HtmlIndex {
 				+ "<html>\n"
 				+ "<head>\n"
 				+ "<link rel=\"stylesheet\" href=\"css\\build.css\" type=\"text/css\" />\n"
+				+ "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0\">\n"
 				+ "<script type=\"text/javascript\" src=\"js\\rebirth.min.js\"></script>\n"
 				+ "<title>Character Index</title>"
 				+ "</head>\n"
