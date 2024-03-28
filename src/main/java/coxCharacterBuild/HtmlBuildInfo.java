@@ -60,6 +60,7 @@ public class HtmlBuildInfo {
 		String primary = attribs.get("Primary");
 		String secondary = attribs.get("Secondary");
 		String name = parseCharName(charContent);
+		String lastActive = attribs.get("LastActive");
 		Integer characterLevel = 0;
 		try {
 		characterLevel = Integer.parseInt(attribs.get("Level"));
@@ -214,7 +215,8 @@ public class HtmlBuildInfo {
 				primary,
 				secondary,
 				filename,
-				char_page_title);
+				char_page_title,
+				lastActive);
     }
  
     public String extractClass(String architype) {
@@ -383,6 +385,8 @@ public class HtmlBuildInfo {
 			  attribs.put("Primary", line.split(" ")[1].replace("\"", ""));
 		  } else if (line.startsWith("Ents2[0].originalSecondary ")) {
 			  attribs.put("Secondary", line.split(" ")[1].replace("\"", ""));
+		  } else if (line.startsWith("LastActive ")) {
+			  attribs.put("LastActive", line.split(" ")[1].replace("\"", ""));
 		  }
 		}
 		scanner.close();

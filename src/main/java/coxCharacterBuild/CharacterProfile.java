@@ -13,6 +13,7 @@ public class CharacterProfile {
 	private String secondary;
 	private String filename;
 	private String title;
+	private String lastActive;
 	public CharacterProfile(String name, 
 			String architype,
 			String architypeIcon,
@@ -24,7 +25,8 @@ public class CharacterProfile {
 			String primary, 
 			String secondary, 
 			String filename, 
-			String title) {
+			String title,
+			String lastActive) {
 		this.name = name;
 		this.architype = architype;
 		this.architypeIcon = architypeIcon;
@@ -37,6 +39,7 @@ public class CharacterProfile {
 		this.secondary = secondary;
 		this.filename = filename;
 		this.title = title;
+		this.lastActive = lastActive;
 	}
 	public CharacterProfile(String name,
 			String architype,
@@ -49,7 +52,8 @@ public class CharacterProfile {
 			String primary,
 			String secondary,
 			String filename,
-			String title) {
+			String title,
+			String lastActive) {
 		this.name = name;
 		this.architype = architype;
 		this.architypeIcon = architypeIcon;
@@ -62,6 +66,7 @@ public class CharacterProfile {
 		this.secondary = secondary;
 		this.filename = filename;
 		this.title = title;
+		this.lastActive = lastActive;
 	}
 	public String getName() {
 		return name;
@@ -134,5 +139,11 @@ public class CharacterProfile {
 	}
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	public String getLastActive() {
+		return lastActive;
+	}
+	public void setLastActive(String lastActive) {
+		this.lastActive = lastActive;
 	}
 }

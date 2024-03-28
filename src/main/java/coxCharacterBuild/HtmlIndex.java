@@ -43,7 +43,7 @@ public class HtmlIndex {
 	// Swap the two lines below if you want each character to have its own page
 	//private static final String LI_CHAR = "  <li title=\"%s\"><a href=\"%s.html\" target=\"charinfo\">%s %s %s (%s) %s</a></li>\n";
 	private static final String LI_CHAR = "  <li title=\"%s\"><a href=\"%s.html\">%s %s %s (%s) %s</a></li>\n";
-	private static final String JSON_CHAR = " { name: '%s', level: %s, origin: '%s', alignment: '%s', at: '%s', url: '%s', title: '%s' },\n";
+	private static final String JSON_CHAR = " { name: '%s', level: %s, origin: '%s', alignment: '%s', at: '%s', url: '%s', title: '%s', lastActive: '%s' },\n";
 
 	private static class CharacterFile {
 		private String characterName;
@@ -267,7 +267,8 @@ public class HtmlIndex {
         			entry.getValue().getAlignment(),
         			entry.getValue().getArchitype(),
         			entry.getValue().getFilename(),
-        			entry.getValue().getTitle());
+        			entry.getValue().getTitle(),
+        			entry.getValue().getLastActive());
         }
 		return "</ul>\n"
 				+ "</div>\n"
@@ -279,6 +280,7 @@ public class HtmlIndex {
 				+ "  <option value=\"origin\">Origin</option>\n"
 				+ "  <option value=\"alignment\">Alignment</option>\n"
 				+ "  <option value=\"at\">Archetype</option>\n"
+				+ "  <option value=\"lastActive\">Last Active</option>\n"
 				+ "</select>\n"
 				+ "<select id=\"ascDesc\" name=\"ascDesc\" onchange=\"reloadChars()\">\n"
 				+ "  <option value=\"asc\">Ascending</option>\n"
