@@ -124,7 +124,7 @@ public class HtmlIndex {
 		System.out.println("INDEX");
 		File file = new File(String.format("%s/index.html", p.getProperty("character_dir")));
 		BufferedWriter writer = new BufferedWriter(new FileWriter(file,true));
-		writer.write(getHeaderHtml());
+		writer.write(getHeaderHtml(num_chars, total_levels));
         for (Map.Entry<String, CharacterProfile> entry : treeMap.entrySet()) {
         	writer.write(String.format(LI_CHAR,
         			entry.getValue().getTitle(),
@@ -135,7 +135,7 @@ public class HtmlIndex {
             		entry.getValue().getLevel(),
             		entry.getValue().getName()));
         }
-        writer.write(getFooterHtml(num_chars, total_levels, treeMap));
+        writer.write(getFooterHtml(treeMap));
         writer.close();
 		System.out.println("END");
 		System.out.println(String.format("%s characters and %s levels in total", num_chars, total_levels));
@@ -244,7 +244,7 @@ public class HtmlIndex {
 		}
 		throw new IOException("Invalid Config File: Missing Parameters");
 	}
-	private static String getHeaderHtml() {
+	private static String getHeaderHtml(final long numChars, final long numLevels) {
 		return "<!DOCTYPE html>\n"
 				+ "<html>\n"
 				+ "<head>\n"
@@ -254,10 +254,11 @@ public class HtmlIndex {
 				+ "<title>Character Index</title>"
 				+ "</head>\n"
 				+ "<body>\n"
+				+ String.format("<h1>%s characters and %s levels</h1>\n", numChars, numLevels)
 				+ "<div class=\"layout\">\n"
 				+ "<ul>\n";	
 	}
-	private static String getFooterHtml(final long numChars, final long numLevels, Map<String, CharacterProfile> treeMap) {
+	private static String getFooterHtml(Map<String, CharacterProfile> treeMap) {
 		String charData = "";
         for (Map.Entry<String, CharacterProfile> entry : treeMap.entrySet()) {
         	charData = charData + String.format(JSON_CHAR,
@@ -272,7 +273,7 @@ public class HtmlIndex {
         }
 		return "</ul>\n"
 				+ "</div>\n"
-				+ String.format("<div style=\"text-align: center;\">%s characters and %s levels</div>\n", numChars, numLevels)
+				+ "<div style=\"text-align: center;\">Sort Options</div>\n"
 				+ "<div style=\"text-align: center;\">\n"
 				+ "<select id=\"sortOrder\" name=\"sortOrder\" onchange=\"reloadChars()\">\n"
 				+ "  <option value=\"name\">Name</option>\n"

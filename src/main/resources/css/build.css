@@ -5,6 +5,7 @@ body {
 }
 h1 {
   vertical-align: top;
+  text-align: center;
 }
 table.powertable {
   background-color: transparent;
