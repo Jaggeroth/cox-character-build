@@ -7,6 +7,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -27,9 +30,10 @@ import org.apache.http.util.EntityUtils;
 
 public class HtmlBuildInfo {
 	private static final String IMG_TAG = "<img src=\"%s\" title=\"%s\">";
-	private static final String TB_POWER = "<table class=\"powertable\">";
-	private static final String TB_POWER_ROW = "<tr><td class=\"powercol\" rowspan=\"2\">%s</td><td colspan=\"7\">%s</td></tr>";
-	private static final String TB_ENHANCEMENT_CELL = "<td style=\"width: 36px;\">%s</td>";
+	private static final String TB_POWER = "<div class=\"powgrid\">";
+	private static final String TB_POWER_ROW = "<div class=\"powicon\">%s</div><div class=\"powtext\">%s</div>";
+	//<div class=\"slottext\">%s</div>
+	private static final String TB_ENHANCEMENT_CELL = "<div class=\"sloticon\">%s</div><div class=\"slottext\">%s</div>";
 	private static final String UNKNOWN_ICON = "images\\unknown.png";
 	private static final String DOUBLE_IMG = "<div class=\"img-container\"><img class=\"bottom\" src=\"%s\" width=\"32\" height=\"32\"><img class=\"top\" src=\"%s\" title=\"%s\" width=\"32\" height=\"32\"></div>";
 	private static final String CHAR_TITLE = "%s : lvl %s %s %s / %s %s %s";
@@ -201,7 +205,7 @@ public class HtmlBuildInfo {
 				}
 			}
 		}
-		writer.write(getFooterHtml());
+		writer.write(getFooterHtml(lastActive));
 		writer.close();
 		deployResources(getResources(), targetDir);
 		return new CharacterProfile(name,
@@ -282,12 +286,13 @@ public class HtmlBuildInfo {
 			Power p = entry.getValue();
 			if (Integer.valueOf(p.extractPowerLevelBought()).compareTo(forLevel)==0) {
 				if (p.isBuildOption()) {
+					String pTxt = String.format("(%s) ", String.valueOf(forLevel))+outputPower(p);
 					result = result + TB_POWER;
 					result = result + String.format(TB_POWER_ROW, getPowerIcon(p), 
-							String.format("(%s) ", String.valueOf(forLevel))+outputPower(p));
-					result = result + "<tr>\n";
+							pTxt);
+					result = result + "\n";
 					result = result + findBoostForPower(p, boosts);
-					result = result + "</tr>\n</table>\n";
+					result = result + "\n</div>\n";
 				}
 			}
 		}
@@ -300,14 +305,15 @@ public class HtmlBuildInfo {
 		for (Map.Entry<Integer, Boost> entry : boosts.entrySet()) {
 			Boost b = entry.getValue();
 			if (p.getPowerId().equals(b.getPowerId())) {
-				result = result + (String.format(TB_ENHANCEMENT_CELL, getBoostIcon(b))); //, outputBoost(b, p)
+				String slotText = capitalizer(b.getBoostName()) + (b.getLevel() != null ? " LVL "+b.getLevel() : "");
+				result = result + (String.format(TB_ENHANCEMENT_CELL, getBoostIcon(b), slotText));
 				c++;
 			}
 		}
-		while (c<7) {
-			result = result + "<td style=\"width: 32px, height: 32px;\">" + 
-		        "<img src=\"images\\blank.png\" title=\"Kick\" width=\"32\" height=\"32\">" + 
-			    "</td>";
+		while (c<1) {
+			result = result + "<div>" + 
+		        "<img src=\"images\\blank.png\" title=\"empty\">" + 
+			    "</div>";
 			c++;
 		}
 		return result;
@@ -343,9 +349,9 @@ public class HtmlBuildInfo {
 				if (isSlotted(p.getPowerId(), boosts)) {
 					result = result + TB_POWER + "\n";
 					result = result + String.format(TB_POWER_ROW,  getPowerIcon(p), outputPower(p));
-					result = result + "<tr>\n";
+					result = result + "\n";
 					result = result + findBoostForPower(p, boosts);
-					result = result + "</tr>\n</table>\n";
+					result = result + "\n</div>\n";
 				}
 			}
 		}
@@ -589,13 +595,23 @@ public class HtmlBuildInfo {
 				+ "<html>\n"
 				+ "<head>\n"
 				+ "<link rel=\"stylesheet\" href=\"css\\build.css\" type=\"text/css\" />\n"
+				+ "<script type=\"text/javascript\" src=\"js\\rebirth.min.js\"></script>\n"
+				+ "<script type=\"text/javascript\" src=\"js\\switch.min.js\"></script>\n"
 				+ "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0\">"
 				+ "<title>" + title + "</title>\n"
 				+ "</head>\n"
-				+ "<body>\n";	
+				+ "<body>\n"
+				+ "<label class=\"switch\">\n"
+				+ "  <input type=\"checkbox\" id=\"fullTxtChx\" onclick=\"switchText()\">\n"
+				+ "  <span class=\"slider round\"></span>\n"
+				+ "</label>\n";	
 	}
-	private static String getFooterHtml() {
+	private static String getFooterHtml(String lastActive) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
+		LocalDate date = LocalDate.parse(lastActive);
+		lastActive = date.format(formatter);
 		return "</div>\n"
+				+ String.format("<div style=\"text-align: center;\">Last Active %s</div>\n", lastActive)
 				+ "</body>\n"
 				+ "</html>\n"
 				+ "";
@@ -610,6 +626,7 @@ public class HtmlBuildInfo {
 			resources = new ArrayList<String>();
 			resources.add("css\\build.css");
 			resources.add("js\\rebirth.min.js");
+			resources.add("js\\switch.min.js");
 			resources.add("images\\blank.png");
 			resources.add("images\\power_bar.png");
 		}
